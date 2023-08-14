@@ -1,6 +1,7 @@
 # jupyterlab_remote_url
 
 [![Github Actions Status](https://github.com/sanderploegsma/jupyterlab_remote_url/workflows/Build/badge.svg)](https://github.com/sanderploegsma/jupyterlab_remote_url/actions/workflows/build.yml)
+
 A JupyterLab extension to help set up a remote connection to the Jupyter server.
 
 This extension is composed of a Python package named `jupyterlab_remote_url`
