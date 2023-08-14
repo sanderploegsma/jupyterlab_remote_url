@@ -28,10 +28,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
       label: "Copy Jupyter server URL",
       caption: "Copy Jupyter server URL",
       execute: async () => {
-        const response = await requestAPI<InfoResponse>("info");
-        console.log(response);
-        const url = window.location.href.split("/lab")[0];
-        await navigator.clipboard.writeText(`${url}?token=${response.token}`);
+        const { base_url, token } = await requestAPI<InfoResponse>("info");
+        const url = new URL(base_url, window.location.origin);
+        url.searchParams.set("token", token);
+        await navigator.clipboard.writeText(url.toString());
       }
     });
 
