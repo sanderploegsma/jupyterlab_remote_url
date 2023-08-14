@@ -74,7 +74,7 @@ before-build-npm = [
     "jlpm build:prod"
 ]
 before-build-python = ["jlpm clean:all"]
-before-tag-release = ["jlpm lint"]
+before-tag-release = ["jlpm", "jlpm lint"]
 
 [tool.check-wheel-contents]
 ignore = ["W002"]
