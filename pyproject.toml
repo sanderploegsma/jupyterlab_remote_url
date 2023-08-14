@@ -68,13 +68,13 @@ build_dir = "jupyterlab_remote_url/labextension"
 version_cmd = "hatch version"
 
 [tool.jupyter-releaser.hooks]
+after-bump-version = ["jlpm prettier"]
 before-build-npm = [
     "python -m pip install 'jupyterlab>=3.0.0,<4'",
     "jlpm",
     "jlpm build:prod"
 ]
 before-build-python = ["jlpm clean:all"]
-before-tag-release = ["jlpm", "jlpm lint"]
 
 [tool.check-wheel-contents]
 ignore = ["W002"]
