@@ -2,7 +2,12 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-import { Dialog, ICommandPalette, showDialog } from '@jupyterlab/apputils';
+import {
+  Dialog,
+  ICommandPalette,
+  Notification,
+  showDialog
+} from '@jupyterlab/apputils';
 
 import { requestAPI } from './handler';
 
@@ -19,6 +24,31 @@ const getUrl = async () => {
   const url = new URL(base_url, window.location.origin);
   url.searchParams.set('token', token);
   return url;
+};
+
+const showErrorNotification = (message: string) =>
+  Notification.error(message, { autoClose: 5000 });
+
+const copyUrl = async () => {
+  try {
+    const url = await getUrl();
+    await navigator.clipboard.writeText(url.toString());
+  } catch (err) {
+    showErrorNotification('Failed to retrieve Jupyter Server URL');
+  }
+};
+
+const showUrl = async () => {
+  try {
+    const url = await getUrl();
+    await showDialog({
+      title: 'Jupyter server URL',
+      body: url.toString(),
+      buttons: [Dialog.okButton()]
+    });
+  } catch (err) {
+    showErrorNotification('Failed to retrieve Jupyter Server URL');
+  }
 };
 
 /**
@@ -39,23 +69,13 @@ const plugin: JupyterFrontEndPlugin<void> = {
     app.commands.addCommand(copyCommand, {
       label: 'Copy Jupyter server URL',
       caption: 'Copy Jupyter server URL',
-      execute: async () => {
-        const url = await getUrl();
-        await navigator.clipboard.writeText(url.toString());
-      }
+      execute: copyUrl
     });
 
     app.commands.addCommand(showCommand, {
       label: 'Show Jupyter server URL',
       caption: 'Show Jupyter server URL',
-      execute: async () => {
-        const url = await getUrl();
-        await showDialog({
-          title: 'Jupyter server URL',
-          body: url.toString(),
-          buttons: [Dialog.okButton()]
-        });
-      }
+      execute: showUrl
     });
 
     palette.addItem({ command: copyCommand, category: commandCategory });
