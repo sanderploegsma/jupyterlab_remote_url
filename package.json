@@ -103,7 +103,8 @@
       }
     },
     "extension": true,
-    "outputDir": "jupyterlab_remote_url/labextension"
+    "outputDir": "jupyterlab_remote_url/labextension",
+    "schemaDir": "schema"
   },
   "eslintIgnore": [
     "node_modules",
